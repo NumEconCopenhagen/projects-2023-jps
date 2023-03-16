@@ -1,7 +1,7 @@
 # \[Group name\]
 
 **Group members:**
-- Joakim Hagerup Jense
+- Joakim Hagerup Jensen
 - Peter Sandager
 - Sofie Syberg
 
