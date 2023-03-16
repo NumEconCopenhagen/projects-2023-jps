@@ -1,9 +1,9 @@
 # \[Group name\]
 
 **Group members:**
-- A
-- B
-- C
+- Joakim Hagerup Jense
+- Peter Sandager
+- Sofie Syberg
 
 This repository contains  
 1. Inaugural project. 
