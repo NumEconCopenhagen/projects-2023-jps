@@ -265,3 +265,4 @@ ax.set_title('Home work ratio as function of relative wage')
 ax.set_xlabel('log(wF/wM)')
 ax.set_ylabel('log(HF/HM)');
 
+run
