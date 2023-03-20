@@ -1,4 +1,4 @@
-# \[Group name\]
+# \[JPS]\]
 
 **Group members:**
 - Joakim Hagerup Jensen
