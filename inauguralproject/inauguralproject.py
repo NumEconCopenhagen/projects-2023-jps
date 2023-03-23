@@ -30,7 +30,7 @@ class HouseholdSpecializationModelClass:
         # d. wages
         par.wM = 1.0
         par.wF = 1.0
-        par.wF_vec = np.linspace(0.8,1.2,5)
+        par.wF_vec = np.linspace(0.8,0.9,1.0,1.1,1.2)
 
         # e. targets
         par.beta0_target = 0.4
@@ -147,3 +147,4 @@ class HouseholdSpecializationModelClass:
         guess = [.5]*2
         bounds = [(0,1), (0,10)]
         result = optimize.minimize(objective, guess, args = (self), method = 'Nelder-Mead', bounds=bounds)
+        
