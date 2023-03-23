@@ -30,7 +30,7 @@ class HouseholdSpecializationModelClass:
         # d. wages
         par.wM = 1.0
         par.wF = 1.0
-        par.wF_vec = np.linspace(0.8,0.9,1.0,1.1,1.2)
+        par.wF_vec = np.linspace(0.8,1.2,5)
 
         # e. targets
         par.beta0_target = 0.4
@@ -127,19 +127,20 @@ class HouseholdSpecializationModelClass:
         return opt
     
     def estimate(self,alpha=None,sigma=None):
+        wF_values = [0.8, 0.9, 1.0, 1.1, 1.2]
         par = self.par
         sol=self.sol
-        def objective(x, self): #Define the function to be optimized
+        def objective(x, self):                              #Define the function to be optimized
             par.alpha = x[0]
             par.sigma = x[1]
-            for i, wF in enumerate(par.wF_vec): #Solving the model for every female wage in the vector
+            for i, wF in enumerate(wF_values):                 #Solving the model for every female wage in the vector
                 par.wF = wF
                 out = self.solve()
                 sol.LM_vec[i] = out.LM
                 sol.LF_vec[i] = out.LF
                 sol.HM_vec[i] = out.HM
                 sol.HF_vec[i] = out.HF
-            x = np.log(par.wF_vec) #Saving the log wF - log wH vector (wH is normalized to one)
+            x = np.log(wF_values)                                #Saving the log wF - log wH vector (wH is normalized to one)
             y = np.log(sol.HF_vec/(sol.HM_vec+1e-10)) #Saving the log HF - log HM vector
             A = np.vstack([x, np.ones(len(x))]).T #Creating the matrix A, that lstsq uses as input. y=A*beta, where y and beta are vectors
             sol.beta1, sol.beta0 = np.linalg.lstsq(A,y,rcond=None)[0] # lstsq > least squares estimation with parameters beta1 and beta0
