@@ -58,12 +58,12 @@ class HouseholdSpecializationModelClass:
         if par.sigma == 0:
             H = np.fmin(HM,HF)
         elif par.sigma == 1:
-            H = (HM+1e-10)**(1-par.alpha)*(HF+1e-10)**par.alpha
+            H = (HM+1e-10)**(1-par.alpha+1e-10)*(HF+1e-10)**par.alpha+1e-10
         else:
-            H = ((1-par.alpha)*(HM+1e-10)**((par.sigma-1)/(par.sigma))+(par.alpha)*(HF+1e-10)**((par.sigma-1)/(par.sigma)))**((par.sigma)/(par.sigma-1))
+            H = ((1-par.alpha+1e-10)*(HM+1e-10)**((par.sigma-1)/(par.sigma+1e-10))+(par.alpha+1e-10)*(HF+1e-10)**((par.sigma-1)/(par.sigma+1e-10)))**((par.sigma+1e-10)/(par.sigma-1+1e-10))
         # c. total consumption utility
         Q = C**par.omega*H**(1-par.omega)
-        utility = np.fmax(Q,1e-8)**(1-par.rho)/(1-par.rho)
+        utility = np.fmax(Q,1e-8)**(1-par.rho+1e-10)/(1-par.rho+1e-10)
 
         # d. disutlity of work
         epsilon_ = 1+1/par.epsilon
