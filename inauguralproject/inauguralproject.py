@@ -60,7 +60,7 @@ class HouseholdSpecializationModelClass:
         elif par.sigma == 1:
             H = (HM+1e-10)**(1-par.alpha)*(HF+1e-10)**par.alpha
         else:
-            H = ((1-par.alpha+1e-10)*(HM+1e-10)**((par.sigma-1+1e-10)/(par.sigma+1e-10))+(par.alpha+1e-10)*(HF+1e-10)**((par.sigma-1+1e-10)/(par.sigma+1e-10)))**((par.sigma+1e-10)/(par.sigma-1+1e-10))
+            H = ((1-par.alpha)*(HM+1e-10)**((par.sigma-1)/(par.sigma))+(par.alpha)*(HF+1e-10)**((par.sigma-1)/(par.sigma)))**((par.sigma)/(par.sigma-1))
         # c. total consumption utility
         Q = C**par.omega*H**(1-par.omega)
         utility = np.fmax(Q,1e-8)**(1-par.rho)/(1-par.rho)
@@ -115,50 +115,35 @@ class HouseholdSpecializationModelClass:
         """ solve model continously """
         obj = lambda x: - self.calc_utility(x[0], x[1], x[2], x[3])    
         bounds = [(0,24)]*4
-        guess = [5]*4
-        result = optimize.minimize(obj, guess, method='SLSQP',bounds=bounds)
+        guess = [4]*4
+        result = optimize.minimize(obj, guess, method='Nelder-Mead',bounds=bounds)
         opt = SimpleNamespace()
         opt.LM = result.x[0]
         opt.HM = result.x[1]
         opt.LF = result.x[2]
         opt.HF = result.x[3]
+        opt.util = self.calc_utility(opt.LM, opt.HM, opt.LF, opt.HF)
         
         return opt
-
-    def solve_wF_vec(self,discrete=False):
-        """ solve model for vector of female wages """
-        par = self.par
-        sol = self.sol
-
-        for n, i in enumerate(par.wF_vec) :
-            par.wF = i
-            out = self.solve()
-            sol.LM_vec[n] = out.LM
-            sol.LF_vec[n] = out.LF
-            sol.HM_vec[n] = out.HM
-            sol.HF_vec[n] = out.HF
-
-    def run_regression(self):
-        """ run regression """
-
-        par = self.par
-        sol = self.sol
-
-        x = np.log(par.wF_vec)
-        y = np.log(sol.HF_vec/(sol.HM_vec+1e-10))
-        A = np.vstack([np.ones(x.size),x]).T
-        sol.beta0,sol.beta1 = np.linalg.lstsq(A,y,rcond=None)[0]
     
     def estimate(self,alpha=None,sigma=None):
-        """ estimate alpha and sigma """
+        par = self.par
+        sol=self.sol
         def objective(x, self):
-            par = self.par
-            sol=self.sol
             par.alpha = x[0]
             par.sigma = x[1]
-            self.solve_wF_vec()
-            self.run_regression()
+            for i, wF in enumerate(par.wF_vec):
+                par.wF = wF
+                out = self.solve()
+                sol.LM_vec[i] = out.LM
+                sol.LF_vec[i] = out.LF
+                sol.HM_vec[i] = out.HM
+                sol.HF_vec[i] = out.HF
+            x = np.log(par.wF_vec)
+            y = np.log(sol.HF_vec/(sol.HM_vec+1e-10))
+            A = np.vstack([x, np.ones(len(x))]).T
+            sol.beta1, sol.beta0 = np.linalg.lstsq(A,y,rcond=None)[0]
             return (0.4-sol.beta0)**2+(-0.1-sol.beta1)**2
-        guess = [.1]*2
+        guess = [.5]*2
         bounds = [(0,1), (0,10)]
-        result = optimize.minimize(objective, guess, args = (self), method = 'SLSQP', bounds=bounds)
+        result = optimize.minimize(objective, guess, args = (self), method = 'Nelder-Mead', bounds=bounds)
