@@ -155,7 +155,7 @@ def run_cournot_model(q1, q2, c, a, T):
     plt.show()
 
     print(f"Price: {a - q1 - q2}")
-    print(f"Quantity - Firm 1: {round(quantities1[T-1],ndigits=3)}")
-    print(f"Quantity - Firm 2: {round(quantities2[T-1],ndigits=3)}")
-    print(f"Profit - Firm 1: {round(profits1[T-1],ndigits=3)}")
-    print(f"Profit - Firm 2: {round(profits2[T-1],ndigits=3)}")
+    print(f"Quantity - Firm 1: {round(quantities1[T-1],2)}")
+    print(f"Quantity - Firm 2: {round(quantities2[T-1],2)}")
+    print(f"Profit - Firm 1: {round(profits1[T-1],2)}")
+    print(f"Profit - Firm 2: {round(profits2[T-1],2)}")
