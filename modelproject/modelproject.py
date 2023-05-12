@@ -101,35 +101,27 @@ def run_cournot_model(q1, q2, c, a, T):
     profits2 = np.zeros(T)
 
     # The objective function that we want to minimize
-    def objective(quantities):
-        q1, q2 = quantities
+    def objective1(q1):
         p = a - q1 - q2  # Calculate the market price based on total quantity
         profit1 = (p - c) * q1
+        return -(profit1)  # Negate the objective for maximization
+    
+    def objective2(q2):
+        p = a - q1 - q2  # Calculate the market price based on total quantity
         profit2 = (p - c) * q2
-        return -(profit1 + profit2)  # Negate the objective for maximization
-
-    # Starting guesses
-    initial_quantities = np.array([q1, q2])
-
-    # We minimize the objective function
-    result = minimize(objective, initial_quantities, method='SLSQP')
-
-    # Retrieve the equilibrium quantities
-    equilibrium_quantities = result.x
+        return -(profit2)  # Negate the objective for maximization
 
     # The repeated Cournot game
     for t in range(T):
+        q1_ = minimize(objective1, q1, method='SLSQP')
+        q2_ = minimize(objective2, q2, method='SLSQP')
+        q1 = q1_.x
+        q2 = q2_.x
+        quantities1[t] = q1
+        quantities2[t] = q2
         p = a - q1 - q2  # Calculate the market price based on total quantity
         profits1[t] = (p - c) * q1
         profits2[t] = (p - c) * q2
-        
-        # Update the quantities based on the quantity change and the difference with the optimal response
-        q1 = max(q1-quantity_change * (q1 - equilibrium_quantities[0]),0)
-        q2 = max(q2-quantity_change * (q2 - equilibrium_quantities[1]),0)
-        
-        # Store the current quantities
-        quantities1[t] = q1
-        quantities2[t] = q2
 
         # Print prices and quantities for each time period
         #print(f"Time Period {t+1}:")
@@ -161,3 +153,9 @@ def run_cournot_model(q1, q2, c, a, T):
 
     plt.tight_layout()
     plt.show()
+
+    print(f"Price: {a - q1 - q2}")
+    print(f"Quantity - Firm 1: {round(quantities1[T-1],ndigits=3)}")
+    print(f"Quantity - Firm 2: {round(quantities2[T-1],ndigits=3)}")
+    print(f"Profit - Firm 1: {round(profits1[T-1],ndigits=3)}")
+    print(f"Profit - Firm 2: {round(profits2[T-1],ndigits=3)}")
