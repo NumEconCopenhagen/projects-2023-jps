@@ -19,8 +19,8 @@ def run_bertrand_model(p1, p2, c, a, T):
     # The objective function that we want to minimize
     def objective(prices):
         p1, p2 = prices
-        q1 = a - p1 * b
-        q2 = a - p2 * b
+        q1 = max(a - p1 * b,0)
+        q2 = max(a - p2 * b,0)
         profit1 = (p1 - c) * q1
         profit2 = (p2 - c) * q2
         return -(profit1 + profit2)  # We take the negative since we want to minimize later
@@ -124,8 +124,8 @@ def run_cournot_model(q1, q2, c, a, T):
         profits2[t] = (p - c) * q2
         
         # Update the quantities based on the quantity change and the difference with the optimal response
-        q1 -= quantity_change * (q1 - equilibrium_quantities[0])
-        q2 -= quantity_change * (q2 - equilibrium_quantities[1])
+        q1 = max(q1-quantity_change * (q1 - equilibrium_quantities[0]),0)
+        q2 = max(q2-quantity_change * (q2 - equilibrium_quantities[1]),0)
         
         # Store the current quantities
         quantities1[t] = q1
