@@ -100,7 +100,7 @@ def run_cournot_model():
     # Set the parameters
     c = 10  # Marginal cost
     T = 100  # Number of periods
-    a = 20 # Maximum quantity
+    a = 100 # Maximum quantity
     quantity_change = 0.1  # Quantity change after each period
 
     # Starting quantities for each firm 
