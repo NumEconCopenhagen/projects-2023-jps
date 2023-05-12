@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
+from random import randrange
 
 # Bertrand Model
 
@@ -96,16 +97,13 @@ def run_bertrand_model():
 
 # Cournot Model
 
-def run_cournot_model():
+def run_cournot_model(c, a, T):
     # Set the parameters
-    c = 10  # Marginal cost
-    T = 100  # Number of periods
-    a = 100 # Maximum quantity
     quantity_change = 0.1  # Quantity change after each period
 
     # Starting quantities for each firm 
-    q1 = 13
-    q2 = 18
+    q1 = randrange(a-c)
+    q2 = randrange(a-c)
 
     # Arrays to store quantities and profits over time
     quantities1 = np.zeros(T)
@@ -145,11 +143,11 @@ def run_cournot_model():
         quantities2[t] = q2
 
         # Print prices and quantities for each time period
-        print(f"Time Period {t+1}:")
-        print(f"Price: {p:.2f}")
-        print(f"Quantity - Firm 1: {q1:.2f}")
-        print(f"Quantity - Firm 2: {q2:.2f}")
-        print("")
+        #print(f"Time Period {t+1}:")
+        #print(f"Price: {p:.2f}")
+        #print(f"Quantity - Firm 1: {q1:.2f}")
+        #print(f"Quantity - Firm 2: {q2:.2f}")
+        #print("")
 
     # Plot the quantities and profits over time
     time_periods = np.arange(1, T + 1)
@@ -174,5 +172,4 @@ def run_cournot_model():
 
     plt.tight_layout()
     plt.show()
-
-
+    
