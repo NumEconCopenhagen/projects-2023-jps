@@ -5,17 +5,10 @@ from random import randrange
 
 # Bertrand Model
 
-def run_bertrand_model():
+def run_bertrand_model(p1, p2, c, a, T):
     # Parameters
-    c = 10  # Marginal cost
-    T = 109  # Number of periods
-    a = 20  # Maximum price
     b = 0.5  # Elasticity
     price_change = 0.1  # Price change made by each firm after one period
-
-    # Starting prices for each firm
-    p1 = 15
-    p2 = 18
 
     # Arrays to store prices and profits over time
     prices1 = np.zeros(T)
