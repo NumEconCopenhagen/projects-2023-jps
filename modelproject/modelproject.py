@@ -123,13 +123,6 @@ def run_cournot_model(q1, q2, c, a, T):
         profits1[t] = (p - c) * q1
         profits2[t] = (p - c) * q2
 
-        # Print prices and quantities for each time period
-        #print(f"Time Period {t+1}:")
-        #print(f"Price: {p:.2f}")
-        #print(f"Quantity - Firm 1: {q1:.2f}")
-        #print(f"Quantity - Firm 2: {q2:.2f}")
-        #print("")
-
     # Plot the quantities and profits over time
     time_periods = np.arange(1, T + 1)
 
