@@ -168,8 +168,6 @@ def run_bertrand_model(p1, p2, c, a, T):
 # Cournot Model
 
 def run_cournot_model(q1, q2, c, a, T):
-    # Set the parameters
-    quantity_change = 0.1  # Quantity change after each period
 
     # Arrays to store quantities and profits over time
     quantities1 = np.zeros(T)
