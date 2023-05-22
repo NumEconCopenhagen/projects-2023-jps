@@ -9,64 +9,57 @@ import sympy as sm
 
 
 # Bertrand Model
-
-def run_bertrand_model(p1, p2, c, a, T):
+def run_bertrand_model(p1, p2, c, a):
     # Parameters
-    b = 0.5  # Elasticity
-    price_change = 0.1  # Price change made by each firm after one period
+    b = 0.8  # Elasticity
+    price_change = 0.05  # Price change made by each firm after one period
 
     # Arrays to store prices and profits over time
-    prices1 = np.zeros(T)
-    prices2 = np.zeros(T)
-    profits1 = np.zeros(T)
-    profits2 = np.zeros(T)
+    prices1 = np.empty((0), float)
+    prices2 = np.empty((0), float)
+    profits1 = np.empty((0), float)
+    profits2 = np.empty((0), float)
 
-    # The objective function that we want to minimize
-    def objective(prices):
-        p1, p2 = prices
-        q1 = max(a - p1 * b,0)
-        q2 = max(a - p2 * b,0)
-        profit1 = (p1 - c) * q1
-        profit2 = (p2 - c) * q2
-        return -(profit1 + profit2)  # We take the negative since we want to minimize later
+    prices1 = np.append(prices1, [p1], axis=0)
+    prices2 = np.append(prices2, [p2], axis=0)
 
-    # Starting guess
-    initial_prices = np.array([p1, p2])
+    if p1 < p2:
+        profits1 = np.append(profits1, [(a-p1*b)*(p1-c)], axis=0)
+        profits2 = np.append(profits2, [0], axis=0)
+    if p1 == p2:
+        profits1 = np.append(profits1, [(a-p1*b)*(p1-c)/2], axis=0)
+        profits2 = np.append(profits2, [(a-p2*b)*(p2-c)/2], axis=0)
+    if p1 > p2:
+        profits1 = np.append(profits1, [0], axis=0)
+        profits2 = np.append(profits2, [(a-p2*b)*(p2-c)], axis=0)
 
-    # Minimize the objective function
-    result = minimize(objective, initial_prices, method='SLSQP')
+    while p1 > c or p2 > c:
+        if p1 < p2:
+            p1_ = p1
+            p2_ = max(min((p1-c)*(1-price_change)+c,p1-0.01),c)
+        if p1 > p2:
+            p1_ = max(min((p2-c)*(1-price_change)+c,p2-0.01),c)
+            p2_ = p2
+        if p1 == p2:
+            p1_ = max(min((p2-c)*(1-price_change)+c,p2-0.01),c)
+            p2_ = max(min((p1-c)*(1-price_change)+c,p1-0.01),c)
+        p1 = p1_
+        p2 = p2_
+        prices1 = np.append(prices1, [p1], axis=0)
+        prices2 = np.append(prices2, [p2], axis=0)
 
-    # Retrieve the equilibrium prices
-    equilibrium_prices = result.x
-
-    # Reaction function for each firm
-    def reaction(p1, p2):
-        return (20 - p1) / 2, (20 - p2) / 2
-
-    # Initialize equilibrium_period variable
-    equilibrium_period = None
-
-    # The repeated Bertrand game
-    for t in range(T):
-        q1, q2 = reaction(p1, p2)
-        profits1[t] = (p1 - c) * q1
-        profits2[t] = (p2 - c) * q2
-
-        # Update the prices based on the price_change and the difference with marginal cost
-        p1 -= price_change * (p1 - c)
-        p2 -= price_change * (p2 - c)
-
-        # Store the prices from each period
-        prices1[t] = p1
-        prices2[t] = p2
-
-        # Check if prices equal the marginal cost
-        if np.isclose(p1, c) and np.isclose(p2, c):
-            equilibrium_period = t + 1
-            break  # exits the simulation
+        if p1 < p2:
+            profits1 = np.append(profits1, [(a-p1*b)*(p1-c)], axis=0)
+            profits2 = np.append(profits2, [0], axis=0)
+        if p1 == p2:
+            profits1 = np.append(profits1, [(a-p1*b)*(p1-c)/2], axis=0)
+            profits2 = np.append(profits2, [(a-p2*b)*(p2-c)/2], axis=0)
+        if p1 > p2:
+            profits1 = np.append(profits1, [0], axis=0)
+            profits2 = np.append(profits2, [(a-p2*b)*(p2-c)], axis=0)
 
     # Plot the prices and profits over time
-    time_periods = np.arange(1, T + 1)
+    time_periods = np.arange(0, np.shape(prices1)[0])
 
     plt.figure(figsize=(10, 4))
 
@@ -90,6 +83,8 @@ def run_bertrand_model(p1, p2, c, a, T):
     plt.tight_layout()
     plt.show()
 
+<<<<<<< HEAD
+=======
     print("Equilibrium Period:", equilibrium_period)
     firm_1_demand = sm.Eq(q1, 13 - 0.5*p1 + p2)
     firm_2_demand = sm.Eq(q1,  18 + p1 - 0.5*p2)
@@ -165,6 +160,7 @@ def run_bertrand_model(p1, p2, c, a, T):
 
     display(neq)
 
+>>>>>>> bb27e965e8808f14bc0f8b23d39199a436c6240f
 # Cournot Model
 
 def run_cournot_model(q1, q2, c, a, T):
