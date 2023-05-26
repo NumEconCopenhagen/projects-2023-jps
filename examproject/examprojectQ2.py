@@ -181,8 +181,8 @@ def calculate_optimal_delta():
     # Find optimal delta that maximizes H
     optimal_delta = delta_max[np.argmax(values_prev)]
     H_max = np.max(values_prev)
-    print(f"Optimal delta: {optimal_delta:.2f}")
-    print(f"Maximum expected profit: {H_max:.2f}")
+    print(f"Optimal delta: {optimal_delta:.3f}")
+    print(f"Maximum expected profit: {H_max:.3f}")
 
      # Plotting
     plt.figure(figsize=(10, 6))
