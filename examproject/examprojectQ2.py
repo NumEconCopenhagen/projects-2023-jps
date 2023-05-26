@@ -127,7 +127,8 @@ def calculate_new_profit():
             ell_prev = ell
     # Calculate the ex expected value for the new policy
     H_new = np.mean(h_values_new)
-    return H_new
+
+    print(f"New expected profit: {H_new:.2f}")
 
 # 2.4 
 
@@ -180,8 +181,20 @@ def calculate_optimal_delta():
     # Find optimal delta that maximizes H
     optimal_delta = delta_max[np.argmax(values_prev)]
     H_max = np.max(values_prev)
+    print(f"Optimal delta: {optimal_delta:.2f}")
+    print(f"Maximum expected profit: {H_max:.2f}")
 
-    return optimal_delta, H_max
+     # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(delta_max, values_prev, label='Profit')
+    plt.scatter([optimal_delta], [H_max], color='red') 
+    plt.xlabel('$\Delta$')
+    plt.ylabel('Profit')
+    plt.title('Optimal $\Delta$ for profit maximization')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 
 # 2.5
 
@@ -217,7 +230,6 @@ def calculate_expected_profit_discount_rate():
     
     # Calculate the ex ante expected value for the new policy
     H_new = np.mean(h_values_new)
+    print(f"New expected profit: {H_new:.2f}")
     
-    
-    # Return the results
-    return H_new
+
