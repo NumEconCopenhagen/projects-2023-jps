@@ -8,7 +8,7 @@ import sympy as sm
 
 # 1.1
 
-# Define parameters
+# We define the parameters
 alpha = 0.5
 kappa = 1.0
 nu = 1 / (2 * 16**2)
