@@ -28,3 +28,16 @@ Exam project
 In the exam project, we begin by solving a maximization problem concerning optimal taxation and government consumption. We determine the optimal labor supply choice and explore how it varies with different parameters.
 In the second problem, our goal is to maximize profits for a hair salon by considering various policies.
 In the third problem, we apply a Griewank function to implement a global optimizer using a multistart approach for faster convergence."
+
+Peerfeedback for other groups
+
+Inagural 
+- https://github.com/NumEconCopenhagen/projects-2023-aca/issues/2
+- https://github.com/NumEconCopenhagen/projects-2023-hold-11/issues/2
+Data project
+- https://github.com/NumEconCopenhagen/projects-2023-zds655/issues/3
+- https://github.com/NumEconCopenhagen/projects-2023-peter_kj/issues/4 
+Model project
+- https://github.com/NumEconCopenhagen/projects-2023-andy-bank/issues/3
+- https://github.com/NumEconCopenhagen/projects-2023-lise-adam/issues/5
+
