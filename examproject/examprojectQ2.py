@@ -157,8 +157,9 @@ def calculate_optimal_delta():
             kappa_minus_1 = 1.0  # Initial shock
             ell_minus_1 = 0.0  # Initial employment
 
-            value_prev = 0.0
+            value_prev = 0.0 # Initial value
 
+            # Calculate value for each period
             for t in range(T):
                 kappa = np.exp(rho * np.log(kappa_minus_1) + shock_series[k, t])
                 ell_prev = calculate_ell(kappa)
@@ -168,6 +169,7 @@ def calculate_optimal_delta():
                 else:
                     ell = ell_minus_1
 
+                # Calculate profit
                 profit = kappa * ell ** (1 - eta) - w * ell - (ell != ell_minus_1) * iota
                 value_prev += R ** (-t) * profit
 

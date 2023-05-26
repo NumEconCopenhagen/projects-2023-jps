@@ -38,11 +38,11 @@ def solve_L(w, tau):
 # 1.2
 
 # Set up a range of w values
-def plot_Q2():
+def plot_Q2(tau):
     w_values = np.linspace(0.01, 2, 100)  # We start from 0.01 to avoid division by zero in L_star
 
     # Calculate corresponding L_star values
-    L_star_values = [L_star(w, 0.3, alpha, kappa, nu) for w in w_values]
+    L_star_values = [L_star(w, tau, alpha, kappa, nu) for w in w_values]
 
     # Create the plot
     plt.figure(figsize=(10, 6))
@@ -127,7 +127,7 @@ def max_of_tau(w, plot_fig):
     max_utility = max(V_values)
     max_tau = np.where(V_values == max(V_values))[0][0]/100
 
-    if plot_fig == 1:
+    if plot_fig == True:
 
         print(f'Optimal tax rate: {max_tau}')
 
