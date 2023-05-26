@@ -145,7 +145,7 @@ def calculate_optimal_delta():
     shock_series = np.random.normal(-0.5 * sigma_epsilon ** 2, sigma_epsilon, size=(K, T))
 
     # Range of delta values to search over
-    delta_max = np.linspace(0, 0.2, 50)
+    delta_max = np.linspace(0, 0.1, 100)
 
     # Calculate ex-post values for each delta value
     values_prev = np.zeros(len(delta_max))
@@ -187,7 +187,7 @@ def calculate_optimal_delta():
      # Plotting
     plt.figure(figsize=(10, 6))
     plt.plot(delta_max, values_prev, label='Profit')
-    plt.scatter([optimal_delta], [H_max], color='red') 
+    plt.scatter(optimal_delta, H_max, color='red') 
     plt.xlabel('$\Delta$')
     plt.ylabel('Profit')
     plt.title('Optimal $\Delta$ for profit maximization')
