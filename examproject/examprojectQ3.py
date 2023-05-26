@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-whitegrid')
 import sympy as sm
 
-# Question 3
+# Problem 3
 
 # 3.1 and 3.2
 
